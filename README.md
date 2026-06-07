@@ -23,10 +23,10 @@ If you're solo and just want consistent AI instructions across multiple AI tools
 When the user asks you to install cowork, run these commands in their project root:
 
 ```bash
-git clone --depth 1 https://github.com/idahsueh-cmd/cowork-skill /tmp/cowork-skill
+git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
 mkdir -p .cowork
-cp -r /tmp/cowork-skill/project-setup/. .cowork/
-rm -rf /tmp/cowork-skill
+cp -r /tmp/roster-skill/project-setup/. .cowork/
+rm -rf /tmp/roster-skill
 python .cowork/generate.py
 ```
 
@@ -41,10 +41,10 @@ After installation, tell the user:
 ### Install
 
 ```bash
-git clone --depth 1 https://github.com/idahsueh-cmd/cowork-skill /tmp/cowork-skill
+git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
 mkdir -p .cowork
-cp -r /tmp/cowork-skill/project-setup/. .cowork/
-rm -rf /tmp/cowork-skill
+cp -r /tmp/roster-skill/project-setup/. .cowork/
+rm -rf /tmp/roster-skill
 python .cowork/generate.py
 ```
 
@@ -58,9 +58,9 @@ git commit -m "add cowork protocol"
 ### Update
 
 ```bash
-git clone --depth 1 https://github.com/idahsueh-cmd/cowork-skill /tmp/cowork-skill
-cp -r /tmp/cowork-skill/project-setup/. .cowork/
-rm -rf /tmp/cowork-skill
+git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
+cp -r /tmp/roster-skill/project-setup/. .cowork/
+rm -rf /tmp/roster-skill
 python .cowork/generate.py
 ```
 
@@ -72,9 +72,9 @@ Running `generate.py` writes four adapter files from `PROTOCOL.md`:
 
 | Tool       | Output path                        |
 |------------|------------------------------------|
-| Claude Code | `.claude/skills/cowork/SKILL.md`  |
-| Cursor     | `.cursor/rules/cowork.mdc`         |
-| Windsurf   | `.windsurf/rules/cowork.md`        |
+| Claude Code | `.claude/skills/roster/SKILL.md`  |
+| Cursor     | `.cursor/rules/roster.mdc`         |
+| Windsurf   | `.windsurf/rules/roster.md`        |
 | Codex CLI  | `AGENTS.md`                        |
 
 Each file is stamped with a signature. Re-running `generate.py` is safe:
@@ -92,10 +92,10 @@ python .cowork/generate.py --force          # overwrite everything
 
 ## How it works
 
-Every session produces a `COWORK.md` at the repo root:
+Every session produces a `ROSTER.md` at the repo root:
 
 ```
-# COWORK Session — 2026-06-07
+# ROSTER Session — 2026-06-07
 Collaborators: Ida, Jason, Mei
 
 ## Tasks
@@ -137,7 +137,7 @@ If you just need the protocol without setting up the full tool, paste any file f
 ## Repo structure
 
 ```
-cowork-skill/
+roster-skill/
 ├── README.md
 ├── claude-skill/          ← direct Claude Code skill install
 │   ├── SKILL.md
