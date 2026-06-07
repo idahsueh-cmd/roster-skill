@@ -1,32 +1,32 @@
 ---
-name: cowork
+name: roster
 version: 1.0.0
 description: Multi-agent collaboration protocol for project-local AI tools.
 
 claude:
-  description: "Invoke this skill any time two or more developers are working the same repo simultaneously and need to coordinate — the scenario where we are coding together today and do not want to overwrite each other. Handles the full lifecycle — dividing ownership before work starts, briefing a new person who joins mid-session, summarizing who currently has what, resolving disputes when two people need the same file, and closing the session. Produces a shared COWORK.md that all collaborators reference. Trigger on cowork, 協作, 分工, 一起做, collaborate, working together, 同時改, pair coding, split the work, two of us on this repo. Not for PR reviews, GitHub settings changes, or solo development tasks."
+  description: "Invoke this skill any time two or more developers are working the same repo simultaneously and need to coordinate — the scenario where we are coding together today and do not want to overwrite each other. Handles the full lifecycle — dividing ownership before work starts, briefing a new person who joins mid-session, summarizing who currently has what, resolving disputes when two people need the same file, and closing the session. Produces a shared ROSTER.md that all collaborators reference. Trigger on roster, cowork, 協作, 分工, 一起做, collaborate, working together, 同時改, pair coding, split the work, two of us on this repo. Not for PR reviews, GitHub settings changes, or solo development tasks."
 cursor:
-  description: "Use when coordinating multi-person development on the same repo. Trigger on: cowork, collaborate, split the work, working together, two of us on this, handoff ownership, who owns what."
+  description: "Use when coordinating multi-person development on the same repo. Trigger on: roster, cowork, collaborate, split the work, working together, two of us on this, handoff ownership, who owns what."
 windsurf:
-  description: "Cowork protocol — activate when multiple developers need to coordinate work on the same repository without overwriting each other."
+  description: "Roster protocol — activate when multiple developers need to coordinate work on the same repository without overwriting each other."
 codex:
   description: "Multi-developer coordination protocol. Use when two or more people are working the same repo simultaneously and need to divide file ownership."
 ---
 
-# Cowork Protocol v1.0
+# Roster Protocol v1.0
 
 Tool-agnostic coordination rules for two or more people working the same repo simultaneously. Any AI assistant (Claude Code, Cursor, Gemini, Copilot, plain ChatGPT) can execute this protocol by following the steps below.
 
 ---
 
-## COWORK.md — The Shared Artifact
+## ROSTER.md — The Shared Artifact
 
-Every session produces one `COWORK.md` at the repo root. All collaborators read from this file. It is the single source of truth for who owns what.
+Every session produces one `ROSTER.md` at the repo root. All collaborators read from this file. It is the single source of truth for who owns what.
 
 ### Format
 
 ```markdown
-# COWORK Session — <YYYY-MM-DD>
+# ROSTER Session — <YYYY-MM-DD>
 Collaborators: <name>, <name>, ...
 
 ## Tasks
@@ -51,7 +51,7 @@ Collaborators: <name>, <name>, ...
 When done: each person creates a handoff / summary independently, then opens a PR.
 ```
 
-**When to split into `COWORK-detail.md`:** If the ownership table exceeds 60 rows (typically 3+ collaborators with large tasks), move detailed rows to `COWORK-detail.md` and keep `COWORK.md` as a summary index pointing to it.
+**When to split into `ROSTER-detail.md`:** If the ownership table exceeds 60 rows (typically 3+ collaborators with large tasks), move detailed rows to `ROSTER-detail.md` and keep `ROSTER.md` as a summary index pointing to it.
 
 ---
 
@@ -78,7 +78,7 @@ When done: each person creates a handoff / summary independently, then opens a P
 
 5. Treat shared infrastructure as `ALL` by default: `package.json`, `package-lock.json`, lockfiles, config files, design tokens, API contracts, CI/CD files, CLAUDE.md.
 
-6. Write `COWORK.md` following the format above (keep under 100 lines).
+6. Write `ROSTER.md` following the format above (keep under 100 lines).
 
 7. Tell all collaborators: share this file, use the conflict flow if disputes arise, use the status flow to check state at any time, use the join flow if someone new arrives.
 
@@ -99,7 +99,7 @@ When done: each person creates a handoff / summary independently, then opens a P
    - **Technical detail** → the Owner makes the call, then notifies everyone else. No vote needed.
    - **Design / architecture / shared config** → no one proceeds until all involved agree. Recommend a quick sync call if async agreement is taking too long.
 
-3. If the ruling changes ownership, update the `COWORK.md` Ownership table and log the resolution under `## Open Conflicts`.
+3. If the ruling changes ownership, update the `ROSTER.md` Ownership table and log the resolution under `## Open Conflicts`.
 
 ---
 
@@ -109,7 +109,7 @@ When done: each person creates a handoff / summary independently, then opens a P
 
 **Steps:**
 
-1. Read `COWORK.md` (and `COWORK-detail.md` if it exists). Do not ask the user anything.
+1. Read `ROSTER.md` (and `ROSTER-detail.md` if it exists). Do not ask the user anything.
 
 2. Output a one-screen summary:
    - Who owns what (condensed, not the raw table)
@@ -125,7 +125,7 @@ When done: each person creates a handoff / summary independently, then opens a P
 
 **Steps:**
 
-1. Read `COWORK.md`. Brief the new person in plain language:
+1. Read `ROSTER.md`. Brief the new person in plain language:
    - What the session is about
    - Who is working on what
    - What areas are off-limits (other people's ownership zones)
@@ -135,7 +135,7 @@ When done: each person creates a handoff / summary independently, then opens a P
    - New person's name?
    - What are they building today? (one sentence)
 
-3. Map their task to files, assign Owner + Reviewer for their new areas, update the `COWORK.md` Ownership table.
+3. Map their task to files, assign Owner + Reviewer for their new areas, update the `ROSTER.md` Ownership table.
 
 4. Remind them: if they need to touch someone else's area, use the conflict flow first.
 
@@ -155,14 +155,14 @@ When done: each person creates a handoff / summary independently, then opens a P
 2. Run through the checklist for each collaborator:
    - Branch up to date with main? (`git pull origin main`)
    - Build passes?
-   - Any unresolved conflicts in `COWORK.md`?
+   - Any unresolved conflicts in `ROSTER.md`?
    - PR opened?
 
 3. Remind every collaborator to create their own handoff/session summary in their own AI session.
 
 4. Archive the session files:
-   - Rename `COWORK.md` → `COWORK-<YYYY-MM-DD>.md`
-   - Rename `COWORK-detail.md` → `COWORK-detail-<YYYY-MM-DD>.md` (if it exists)
+   - Rename `ROSTER.md` → `ROSTER-<YYYY-MM-DD>.md`
+   - Rename `ROSTER-detail.md` → `ROSTER-detail-<YYYY-MM-DD>.md` (if it exists)
 
 ---
 
