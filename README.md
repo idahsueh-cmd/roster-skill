@@ -126,6 +126,16 @@ python .roster/generate.py --force          # overwrite everything
 
 ---
 
+## Test
+
+```bash
+python -m unittest tests.test_generate
+```
+
+The tests use only Python's standard library.
+
+---
+
 ## How it works
 
 Every session produces a `ROSTER.md` at the repo root:
@@ -157,8 +167,7 @@ All collaborators share this file. It is the single source of truth for the sess
 
 ## Direct use (no install)
 
-If you just need the protocol without setting up the full tool, paste any file from
-[`claude-skill/prompts/`](claude-skill/prompts/) into any AI assistant directly.
+If you just need the protocol without setting up the full tool, paste `project-setup/PROTOCOL.md` into any AI assistant and ask for the flow you need. The prompt files in [`claude-skill/prompts/`](claude-skill/prompts/) are thin shortcuts that assume the assistant can read `PROTOCOL.md`.
 
 | Prompt file | When to use |
 |-------------|-------------|
@@ -179,6 +188,7 @@ roster-skill/
 │   ├── SKILL.md
 │   └── prompts/
 └── project-setup/         ← copy this into your project as .roster/
+    ├── README.md          ← explains the installed .roster/ directory
     ├── PROTOCOL.md        ← single source of truth
     ├── generate.py        ← generates adapter files for all tools
     ├── templates/         ← tool-specific wrappers (thin shells)

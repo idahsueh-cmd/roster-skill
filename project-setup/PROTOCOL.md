@@ -67,9 +67,10 @@ When done: each person creates a handoff / summary independently, then opens a P
 
 1. **Scan silently** — read `CLAUDE.md`, `README.md`, CODEOWNERS, and any rules files. Run `git log --oneline -20` to see recent contributors and active areas. Survey the top-level directory structure. If CODEOWNERS exists, use it as background context for sensitive areas and likely review responsibility, not as the session plan.
 
-2. **Ask one question:**
-   > Who is working today, and what is each person building? (one line per person)
-   > Example: "Ida: new pricing page / Jason: dark mode toggle / Mei: CMS API"
+2. **Ask these questions in a single message:**
+   1. Does everyone already have access to this repo on GitHub? If not, invite them before continuing.
+   2. Who is working today, and what is each person building? One line per person. Example: "Ida: new pricing page / Jason: dark mode toggle / Mei: CMS API"
+   3. Are there any files or areas you already know are sensitive and should only be touched with explicit agreement?
 
 3. **Draft the session ownership table** — from each person's description, infer the files and directories they will likely touch. Do not ask the user to fill this in. Auto-assign shared infrastructure (`package.json`, lockfiles, config files, design tokens, CI files, `CLAUDE.md`, `AGENTS.md`, CODEOWNERS) as `ALL`.
 
