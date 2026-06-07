@@ -8,6 +8,16 @@ Works across Claude Code, Cursor, Windsurf, and Codex CLI, so nobody needs to sw
 
 ---
 
+## What this isn't
+
+cowork is not a "sync your AI instructions across tools" wrapper — tools designed to push one config file into Claude's rules, Cursor's `.mdc`, and Windsurf's rules already exist and work fine.
+
+cowork solves a different problem: two or more people (or AIs, or both) editing the same repo at the same time without overwriting each other. The multi-tool support is incidental — what matters is that everyone touching the repo agrees on who owns what before the commit lands.
+
+If you're solo and just want consistent AI instructions across multiple AI tools, you probably want one of those other tools. If you're coordinating multiple people (with or without AI help), read on.
+
+---
+
 ## For AI agents
 
 When the user asks you to install cowork, run these commands in their project root:
