@@ -19,6 +19,8 @@ TOOLS = {
     "codex":    "AGENTS.md",
 }
 
+CODEX_SNIPPET_PATH = ".roster/generated/AGENTS.roster.md"
+
 ALLOWED = {"{{content}}", "{{name}}", "{{version}}", "{{description}}"}
 SIG_RE  = re.compile(
     r'<!-- roster-managed[^>]*gen-hash: ([a-f0-9]{8})[^>]*out-hash: ([a-f0-9]{8})[^>]*-->\n?'
@@ -60,17 +62,17 @@ def safe_replace(template, values):
         if k in ALLOWED:
             result = result.replace(k, v)
     for unknown in set(re.findall(r'\{\{[^}]+\}\}', result)):
-        print(f"  ⚠  unknown placeholder {unknown} — left as-is")
+        print(f"  WARN unknown placeholder {unknown} - left as-is")
     return result
 
 
 def conflict_error(tool, path):
-    print(f"\n❌  Cannot overwrite {path}")
+    print(f"\nERROR Cannot overwrite {path}")
     print( "    This file does not match roster's last output.")
     print( "    Possible reasons: manually edited, or not created by roster.\n")
     print(f"  A. Skip this tool:     python .roster/generate.py --skip {tool}")
     print(f"  B. Force overwrite:    python .roster/generate.py --force")
-    print( "     ⚠  Run `git diff` first to review what you'd lose.")
+    print( "     WARN Run `git diff` first to review what you'd lose.")
     print(f"  C. Commit first:       git add {path} && git commit")
     print( "     Then re-run generate.py and use `git diff` to review changes.")
 
@@ -102,12 +104,12 @@ def main():
 
     for tool, out_path in TOOLS.items():
         if tool in skip:
-            print(f"  ⏭  {tool}: skipped")
+            print(f"  SKIP {tool}: skipped")
             continue
 
         tpl_path = os.path.join(TEMPLATES_DIR, f"{tool}.md.template")
         if not os.path.exists(tpl_path):
-            print(f"  ⚠  {tool}: template not found, skipping")
+            print(f"  WARN {tool}: template not found, skipping")
             continue
 
         template  = read_file(tpl_path)
@@ -128,6 +130,14 @@ def main():
                      f"generated-at: {ts} -->\n")
         final     = sig_line + rendered
 
+        if tool == "codex" and os.path.exists(out_path) and not force:
+            existing = read_file(out_path)
+            if SIG_RE.search(existing) is None:
+                write_file(CODEX_SNIPPET_PATH, final)
+                print(f"  WARN codex: existing unmanaged {out_path} found")
+                print(f"     wrote {CODEX_SNIPPET_PATH} instead; merge it into {out_path} manually, or re-run with --force")
+                continue
+
         if os.path.exists(out_path) and not force:
             existing = read_file(out_path)
             m = SIG_RE.search(existing)
@@ -142,17 +152,17 @@ def main():
                 errors = True
                 continue
             if stored_gen == gen_hash:
-                print(f"  ✓  {tool}: already up to date")
+                print(f"  OK {tool}: already up to date")
                 continue
 
         write_file(out_path, final)
-        print(f"  ✅  {tool}: wrote {out_path}")
+        print(f"  OK {tool}: wrote {out_path}")
         if tool == "claude":
             claude_written = True
 
     if claude_written:
         print()
-        print("  💡 If Claude Code doesn't pick up .claude/skills/roster/SKILL.md:")
+        print("  TIP If Claude Code doesn't pick up .claude/skills/roster/SKILL.md:")
         print("     1. Restart your Claude Code session")
         print("     2. Make sure you launched claude from this project directory")
         print("     3. WSL users: launch claude from inside WSL, not from Windows")

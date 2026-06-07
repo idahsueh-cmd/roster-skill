@@ -1,12 +1,12 @@
-# Cowork — Status
+# Roster — Status
 
 Give me a current snapshot of this collaboration session. Do not ask me anything — just read and summarize.
 
-**Step 1 — Read `COWORK.md`** at the repo root. If `COWORK-detail.md` exists, read that too.
+**Step 1 — Read `ROSTER.md`** at the repo root. If `ROSTER-detail.md` exists, read that too.
 
 **Step 2 — Output a one-screen summary with these sections:**
 
-**Who owns what**
+**Who has session ownership**
 A condensed version of the ownership table — not the raw table, just the key assignments in plain language.
 
 **Needs agreement (unresolved)**

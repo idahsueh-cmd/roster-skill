@@ -1,10 +1,12 @@
 # roster
 
-> Git tracks code. roster tracks intent.
+> Git tracks code. CODEOWNERS tracks review responsibility. roster tracks live intent before a PR exists.
 
-A coordination protocol for two or more developers (or AIs, or both) working the same repo at the same time — so you don't overwrite each other.
+A pre-PR coordination protocol for two or more developers (or AIs, or both) working the same repo at the same time — so you don't overwrite each other before review tools can help.
 
 Works across Claude Code, Cursor, Windsurf, and Codex CLI, so nobody needs to switch tools to participate.
+
+roster does **not** replace CODEOWNERS, branch protection, issue trackers, or PR review. Use CODEOWNERS for long-lived review responsibility and merge requirements. Use roster for the short-lived "who is touching what today?" agreement at the start of a live collaboration session.
 
 ---
 
@@ -15,6 +17,19 @@ roster is not a "sync your AI instructions across tools" wrapper — tools desig
 roster solves a different problem: two or more people (or AIs, or both) editing the same repo at the same time without overwriting each other. The multi-tool support is incidental — what matters is that everyone touching the repo agrees on who owns what before the commit lands.
 
 If you're solo and just want consistent AI instructions across multiple AI tools, you probably want one of those other tools. If you're coordinating multiple people (with or without AI help), read on.
+
+## roster vs CODEOWNERS
+
+| Need | CODEOWNERS | roster |
+|------|------------|--------|
+| Long-term file responsibility | Yes | No |
+| Automatic PR review requests | Yes | No |
+| Required owner approval before merge | Yes, with branch protection or rulesets | No |
+| Pre-PR session planning | No | Yes |
+| Temporary "who touches what today" coordination | No | Yes |
+| Multi-agent or multi-person conflict prevention before commits land | No | Yes |
+
+If a repo already has CODEOWNERS, roster should read it as context for sensitive areas and likely reviewers, not as the session plan itself.
 
 ---
 
@@ -75,11 +90,13 @@ Running `generate.py` writes four adapter files from `PROTOCOL.md`:
 | Claude Code | `.claude/skills/roster/SKILL.md`  |
 | Cursor     | `.cursor/rules/roster.mdc`         |
 | Windsurf   | `.windsurf/rules/roster.md`        |
-| Codex CLI  | `AGENTS.md`                        |
+| Codex CLI  | `AGENTS.md`, only when safe to manage automatically |
 
 Each file is stamped with a signature. Re-running `generate.py` is safe:
 - Unmodified files → upgraded automatically
 - Manually edited files → blocked with a clear error and three options
+
+For Codex, if an existing unmanaged `AGENTS.md` is present, roster does not overwrite it by default. It writes `.roster/generated/AGENTS.roster.md` instead and tells you to merge the snippet manually. Use `--force` only after reviewing what would be replaced.
 
 ### Options
 
@@ -104,14 +121,14 @@ Collaborators: Ida, Jason, Mei
 - Mei: CMS API integration
 
 ## Ownership
-| File / Directory       | Owner | Reviewer | Notes                           |
-|------------------------|-------|----------|---------------------------------|
-| src/pages/Pricing/     | Ida   | Mei      |                                 |
-| src/components/Navbar/ | Jason | Ida      |                                 |
-| theme.css              | ALL   | ALL      | needs agreement before changing |
+| File / Directory       | Session Owner | Consult / Notify | Notes                           |
+|------------------------|---------------|------------------|---------------------------------|
+| src/pages/Pricing/     | Ida           | Mei              |                                 |
+| src/components/Navbar/ | Jason         | Ida              |                                 |
+| theme.css              | ALL           | ALL              | needs agreement before changing |
 
 ## Conflict Rules
-- Technical detail → Owner decides, notifies others
+- Technical detail → Session Owner decides, notifies others
 - Design / architecture / shared config → all involved must agree before anyone proceeds
 ```
 

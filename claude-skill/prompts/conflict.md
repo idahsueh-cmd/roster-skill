@@ -1,6 +1,6 @@
-# Cowork — Conflict
+# Roster — Conflict
 
-Someone needs to touch a file that belongs to another person, or ownership was never defined. Your job is to resolve this fairly and update the shared record.
+Someone needs to touch a file that belongs to another person's session area, or session ownership was never defined. Your job is to resolve this fairly and update the shared record.
 
 **Step 1 — Ask me the following in a single message:**
 1. What file or directory is in dispute?
@@ -9,10 +9,10 @@ Someone needs to touch a file that belongs to another person, or ownership was n
 
 **Step 2 — After I answer, apply the rule:**
 
-- **Technical detail** → the Owner (whoever's task depends most on this file) makes the call. They decide, then notify everyone else. No group vote needed.
+- **Technical detail** → the Session Owner (whoever's task depends most on this file) makes the call. They decide, then notify everyone else. No group vote needed.
 - **Design / architecture / shared config** → no one proceeds until all involved agree. If async agreement is taking too long, recommend a quick sync call.
 
-**Step 3 — Update `COWORK.md`:**
+**Step 3 — Update `ROSTER.md`:**
 - If the ruling changes who owns the file, update the Ownership table.
 - Log the resolution under `## Open Conflicts` so everyone can see it was handled.
 
