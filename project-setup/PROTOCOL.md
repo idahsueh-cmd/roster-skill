@@ -59,28 +59,23 @@ When done: each person creates a handoff / summary independently, then opens a P
 
 ### START
 
-**Purpose:** Kick off a new roster session before anyone writes code.
+**Purpose:** Kick off a roster session before anyone writes code. Target: under 30 seconds.
 
 **Steps:**
 
-1. Read the project silently: look for `CLAUDE.md`, `README.md`, any rules or conventions files.
+1. **Scan silently** — read `CLAUDE.md`, `README.md`, and any rules files. Run `git log --oneline -20` to see recent contributors and active areas. Survey the top-level directory structure.
 
-2. Ask the group **in a single message**:
-   - Does everyone already have repo access? (If not: go to repo Settings → Collaborators → invite before continuing.)
-   - List all collaborators and what each person is building today — one line each.
-   - Any files or areas already known to be sensitive (only one person should touch)?
+2. **Ask one question:**
+   > Who is working today, and what is each person building? (one line per person)
+   > Example: "Ida: new pricing page / Jason: dark mode toggle / Mei: CMS API"
 
-3. Map each person's task to the files/directories they'll likely touch.
+3. **Draft the ownership table** — from each person's description, infer the files and directories they will likely touch. Do not ask the user to fill this in. Auto-assign shared infrastructure (`package.json`, lockfiles, config files, design tokens, CI files, `CLAUDE.md`) as `ALL`.
 
-4. Identify overlap zones (multiple people may need the same file). For each overlap:
-   - Assign one **Owner** (whose task depends on it most) and one **Reviewer**.
-   - If no clear owner: mark as `ALL` + "needs agreement before changing".
+4. **Confirm, do not fill** — show the draft `ROSTER.md` and ask: "Does this look right? Any files to add, move, or change ownership on?" Apply corrections. If no corrections, proceed immediately.
 
-5. Treat shared infrastructure as `ALL` by default: `package.json`, `package-lock.json`, lockfiles, config files, design tokens, API contracts, CI/CD files, CLAUDE.md.
+5. **Write `ROSTER.md`** to the repo root.
 
-6. Write `ROSTER.md` following the format above (keep under 100 lines).
-
-7. Tell all collaborators: share this file, use the conflict flow if disputes arise, use the status flow to check state at any time, use the join flow if someone new arrives.
+6. **One-line close** — "ROSTER.md is live. Share it with everyone. Use `/roster conflict` if two people need the same file."
 
 ---
 
