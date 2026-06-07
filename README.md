@@ -1,10 +1,18 @@
 # roster
 
-> Git tracks code. CODEOWNERS tracks review. roster tracks live intent before a PR exists.
+> Prevent AI coding agents from overwriting each other.
 
-Prevent AI agents and teammates from editing the same files at the same time.
+roster helps teams using Claude Code, Cursor, Windsurf, and Codex work on the same repo without accidentally editing the same files.
 
-roster is a small pre-PR coordination protocol for Claude Code, Codex, Cursor, and Windsurf. It creates a `ROSTER.md` so everyone knows who is touching what before commits, reviews, or merge protection can help.
+It creates a simple `ROSTER.md` before a PR exists, so multiple AI tools or teammates can agree on who is touching which files before work collides.
+
+```mermaid
+flowchart LR
+    A["People or AI agents start work"] --> B["Create ROSTER.md"]
+    B --> C["Assign file responsibility"]
+    C --> D["Avoid accidental overlap"]
+    D --> E["Open PRs when ready"]
+```
 
 ---
 
