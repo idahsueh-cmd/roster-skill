@@ -25,9 +25,9 @@ When the user asks you to install cowork, run these commands in their project ro
 ```bash
 git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
 mkdir -p .cowork
-cp -r /tmp/roster-skill/project-setup/. .cowork/
+cp -r /tmp/roster-skill/project-setup/. .roster/
 rm -rf /tmp/roster-skill
-python .cowork/generate.py
+python .roster/generate.py
 ```
 
 After installation, tell the user:
@@ -43,15 +43,15 @@ After installation, tell the user:
 ```bash
 git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
 mkdir -p .cowork
-cp -r /tmp/roster-skill/project-setup/. .cowork/
+cp -r /tmp/roster-skill/project-setup/. .roster/
 rm -rf /tmp/roster-skill
-python .cowork/generate.py
+python .roster/generate.py
 ```
 
-Commit the `.cowork/` directory so teammates get the same setup when they clone:
+Commit the `.roster/` directory so teammates get the same setup when they clone:
 
 ```bash
-git add .cowork/
+git add .roster/
 git commit -m "add cowork protocol"
 ```
 
@@ -59,9 +59,9 @@ git commit -m "add cowork protocol"
 
 ```bash
 git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
-cp -r /tmp/roster-skill/project-setup/. .cowork/
+cp -r /tmp/roster-skill/project-setup/. .roster/
 rm -rf /tmp/roster-skill
-python .cowork/generate.py
+python .roster/generate.py
 ```
 
 ---
@@ -84,8 +84,8 @@ Each file is stamped with a signature. Re-running `generate.py` is safe:
 ### Options
 
 ```bash
-python .cowork/generate.py --skip cursor    # skip one tool
-python .cowork/generate.py --force          # overwrite everything
+python .roster/generate.py --skip cursor    # skip one tool
+python .roster/generate.py --force          # overwrite everything
 ```
 
 ---
@@ -142,7 +142,7 @@ roster-skill/
 ├── claude-skill/          ← direct Claude Code skill install
 │   ├── SKILL.md
 │   └── prompts/
-└── project-setup/         ← copy this into your project as .cowork/
+└── project-setup/         ← copy this into your project as .roster/
     ├── PROTOCOL.md        ← single source of truth
     ├── generate.py        ← generates adapter files for all tools
     ├── templates/         ← tool-specific wrappers (thin shells)
