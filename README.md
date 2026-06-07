@@ -52,6 +52,22 @@ If a repo already has CODEOWNERS, roster should read it as context for sensitive
 
 ---
 
+## Current design
+
+`project-setup/PROTOCOL.md` is the single source of truth. It defines the START, CONFLICT, STATUS, JOIN, and WRAP flows, plus the `ROSTER.md` format.
+
+The prompt files in `claude-skill/prompts/` are intentionally thin. They do not duplicate the workflow; each one only tells the assistant to execute the matching flow from `PROTOCOL.md`.
+
+When installed into a project, `.roster/README.md` explains the installed directory:
+
+- `.roster/PROTOCOL.md` is the core rulebook
+- `.roster/generate.py` creates the AI-tool adapter files
+- `ROSTER.md` is the per-session collaboration artifact created at the project root
+
+The generator is covered by standard-library tests so the repo can be checked without installing pytest or other packages.
+
+---
+
 ## For AI agents
 
 When the user asks you to install roster, run these commands in their project root:
@@ -102,7 +118,7 @@ python .roster/generate.py
 
 ## What gets generated
 
-Running `generate.py` writes four adapter files from `PROTOCOL.md`:
+Running `generate.py` writes four adapter files from `PROTOCOL.md`, which is the only workflow source:
 
 | Tool       | Output path                        |
 |------------|------------------------------------|
@@ -187,12 +203,14 @@ roster-skill/
 ├── claude-skill/          ← direct Claude Code skill install
 │   ├── SKILL.md
 │   └── prompts/
-└── project-setup/         ← copy this into your project as .roster/
+├── project-setup/         ← copy this into your project as .roster/
     ├── README.md          ← explains the installed .roster/ directory
     ├── PROTOCOL.md        ← single source of truth
     ├── generate.py        ← generates adapter files for all tools
     ├── templates/         ← tool-specific wrappers (thin shells)
     └── VERSION
+└── tests/
+    └── test_generate.py   ← standard-library generator tests
 ```
 
 ---
