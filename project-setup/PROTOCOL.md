@@ -1,3 +1,18 @@
+---
+name: cowork
+version: 1.0.0
+description: Multi-agent collaboration protocol for project-local AI tools.
+
+claude:
+  description: "Invoke this skill any time two or more developers are working the same repo simultaneously and need to coordinate — the scenario where we are coding together today and do not want to overwrite each other. Handles the full lifecycle — dividing ownership before work starts, briefing a new person who joins mid-session, summarizing who currently has what, resolving disputes when two people need the same file, and closing the session. Produces a shared COWORK.md that all collaborators reference. Trigger on cowork, 協作, 分工, 一起做, collaborate, working together, 同時改, pair coding, split the work, two of us on this repo. Not for PR reviews, GitHub settings changes, or solo development tasks."
+cursor:
+  description: "Use when coordinating multi-person development on the same repo. Trigger on: cowork, collaborate, split the work, working together, two of us on this, handoff ownership, who owns what."
+windsurf:
+  description: "Cowork protocol — activate when multiple developers need to coordinate work on the same repository without overwriting each other."
+codex:
+  description: "Multi-developer coordination protocol. Use when two or more people are working the same repo simultaneously and need to divide file ownership."
+---
+
 # Cowork Protocol v1.0
 
 Tool-agnostic coordination rules for two or more people working the same repo simultaneously. Any AI assistant (Claude Code, Cursor, Gemini, Copilot, plain ChatGPT) can execute this protocol by following the steps below.

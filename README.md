@@ -2,39 +2,77 @@
 
 A coordination protocol for two or more developers working the same repo at the same time — so you don't overwrite each other.
 
-**Works with any AI assistant.** The protocol lives in `PROTOCOL.md`. Use it via Claude Code skill, or paste the `prompts/` files directly into Cursor, Gemini, Copilot, or plain ChatGPT.
+Supports **Claude Code, Cursor, Windsurf, and Codex CLI** from a single source of truth.
 
 ---
 
-## Option A — Claude Code skill
+## For AI agents
+
+When the user asks you to install cowork, run these commands in their project root:
 
 ```bash
-claude skill install https://github.com/idahsueh-cmd/cowork-skill
+git clone --depth 1 https://github.com/idahsueh-cmd/cowork-skill /tmp/cowork-skill
+mkdir -p .cowork
+cp -r /tmp/cowork-skill/project-setup/. .cowork/
+rm -rf /tmp/cowork-skill
+python .cowork/generate.py
 ```
 
-Then use:
-
-| Command | What it does |
-|---------|--------------|
-| `/cowork start` | Set up a session — reads project, asks who's working on what, writes `COWORK.md` |
-| `/cowork conflict` | Resolve an ownership dispute — gives a clear ruling |
-| `/cowork status` | Summarize current session state from `COWORK.md` |
-| `/cowork join` | Onboard a new collaborator mid-session |
-| `/cowork wrap` | Close the session — merge order, checklist, archive |
+Then tell the user to restart their AI session (so the new skill files are picked up).
 
 ---
 
-## Option B — Any AI assistant (paste a prompt)
+## For humans
 
-Copy the relevant file from `prompts/` and paste it into any AI chat:
+### Install
 
-| File | When to use |
-|------|-------------|
-| `prompts/start.md` | Starting a new session |
-| `prompts/conflict.md` | Dispute over a file |
-| `prompts/status.md` | Check current state |
-| `prompts/join.md` | New person joining |
-| `prompts/wrap.md` | Ending the session |
+```bash
+git clone --depth 1 https://github.com/idahsueh-cmd/cowork-skill /tmp/cowork-skill
+mkdir -p .cowork
+cp -r /tmp/cowork-skill/project-setup/. .cowork/
+rm -rf /tmp/cowork-skill
+python .cowork/generate.py
+```
+
+Commit the `.cowork/` directory so teammates get the same setup when they clone:
+
+```bash
+git add .cowork/
+git commit -m "add cowork protocol"
+```
+
+### Update
+
+```bash
+git clone --depth 1 https://github.com/idahsueh-cmd/cowork-skill /tmp/cowork-skill
+cp -r /tmp/cowork-skill/project-setup/. .cowork/
+rm -rf /tmp/cowork-skill
+python .cowork/generate.py
+```
+
+---
+
+## What gets generated
+
+Running `generate.py` writes four adapter files from `PROTOCOL.md`:
+
+| Tool       | Output path                        |
+|------------|------------------------------------|
+| Claude Code | `.claude/skills/cowork/SKILL.md`  |
+| Cursor     | `.cursor/rules/cowork.mdc`         |
+| Windsurf   | `.windsurf/rules/cowork.md`        |
+| Codex CLI  | `AGENTS.md`                        |
+
+Each file is stamped with a signature. Re-running `generate.py` is safe:
+- Unmodified files → upgraded automatically
+- Manually edited files → blocked with a clear error and three options
+
+### Options
+
+```bash
+python .cowork/generate.py --skip cursor    # skip one tool
+python .cowork/generate.py --force          # overwrite everything
+```
 
 ---
 
@@ -52,50 +90,49 @@ Collaborators: Ida, Jason, Mei
 - Mei: CMS API integration
 
 ## Ownership
-| File / Directory   | Owner | Reviewer | Notes                           |
-|--------------------|-------|----------|---------------------------------|
-| src/pages/Pricing/ | Ida   | Mei      |                                 |
-| src/components/Navbar/ | Jason | Ida  |                                 |
-| theme.css          | ALL   | ALL      | needs agreement before changing |
+| File / Directory       | Owner | Reviewer | Notes                           |
+|------------------------|-------|----------|---------------------------------|
+| src/pages/Pricing/     | Ida   | Mei      |                                 |
+| src/components/Navbar/ | Jason | Ida      |                                 |
+| theme.css              | ALL   | ALL      | needs agreement before changing |
 
 ## Conflict Rules
 - Technical detail → Owner decides, notifies others
 - Design / architecture / shared config → all involved must agree before anyone proceeds
 ```
 
-All collaborators share this file. It's the single source of truth for the session.
+All collaborators share this file. It is the single source of truth for the session.
 
 ---
 
-## Conflict resolution rules
+## Direct use (no install)
 
-| Situation | Who decides |
-|-----------|-------------|
-| Implementation detail inside one person's area | That person (Owner) |
-| Design token / theme / shared config change | Everyone affected — sync required |
-| New dependency | All collaborators — affects everyone's build |
-| API contract change | All collaborators |
+If you just need the protocol without setting up the full tool, paste any file from
+[`claude-skill/prompts/`](claude-skill/prompts/) into any AI assistant directly.
 
----
-
-## Requirements
-
-- Each collaborator needs their own AI assistant session
-- Everyone needs push access to the repo
+| Prompt file | When to use |
+|-------------|-------------|
+| `start.md`    | Starting a new session |
+| `conflict.md` | Dispute over a file |
+| `status.md`   | Check current state |
+| `join.md`     | New person joining |
+| `wrap.md`     | Ending the session |
 
 ---
 
-## Architecture
+## Repo structure
 
 ```
-PROTOCOL.md       ← single source of truth (tool-agnostic)
-SKILL.md          ← thin Claude Code interface (reads PROTOCOL.md, runs it)
-prompts/          ← copy-paste prompts for any AI
-  start.md
-  conflict.md
-  status.md
-  join.md
-  wrap.md
+cowork-skill/
+├── README.md
+├── claude-skill/          ← direct Claude Code skill install
+│   ├── SKILL.md
+│   └── prompts/
+└── project-setup/         ← copy this into your project as .cowork/
+    ├── PROTOCOL.md        ← single source of truth
+    ├── generate.py        ← generates adapter files for all tools
+    ├── templates/         ← tool-specific wrappers (thin shells)
+    └── VERSION
 ```
 
 ---

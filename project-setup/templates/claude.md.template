@@ -1,0 +1,21 @@
+---
+name: {{name}}
+description: "{{description}}"
+---
+
+# {{name}}
+
+Any number of people, each with their own AI agent, working on the same repo at the same time. This skill coordinates who owns what — so work doesn't collide.
+
+## Route by $ARGUMENTS
+
+- `start`    → Setup mode
+- `conflict` → Resolve a file/task ownership dispute
+- `status`   → Summarize current session state
+- `join`     → Add a new collaborator mid-session
+- `wrap`     → Finish the session, trigger handoffs
+- empty      → Ask which mode they want
+
+---
+
+{{content}}
