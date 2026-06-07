@@ -1,28 +1,46 @@
-# cowork — Claude Code Skill
+# cowork
 
-A Claude Code skill for coordinating multi-person development sessions on the same repo.
+A coordination protocol for two or more developers working the same repo at the same time — so you don't overwrite each other.
 
-**The problem it solves:** Two or more developers working the same codebase simultaneously, each with their own Claude Code session, trying not to overwrite each other.
+**Works with any AI assistant.** The protocol lives in `PROTOCOL.md`. Use it via Claude Code skill, or paste the `prompts/` files directly into Cursor, Gemini, Copilot, or plain ChatGPT.
 
-## Install
+---
+
+## Option A — Claude Code skill
 
 ```bash
 claude skill install https://github.com/idahsueh-cmd/cowork-skill
 ```
 
-## Usage
+Then use:
 
 | Command | What it does |
-|---------|-------------|
-| `/cowork start` | Set up a session — reads project config, asks who's working on what, produces `COWORK.md` with ownership table |
-| `/cowork conflict` | Resolve an ownership dispute — gives a clear ruling based on task ownership |
-| `/cowork status` | Summarize the current session state from `COWORK.md` |
+|---------|--------------|
+| `/cowork start` | Set up a session — reads project, asks who's working on what, writes `COWORK.md` |
+| `/cowork conflict` | Resolve an ownership dispute — gives a clear ruling |
+| `/cowork status` | Summarize current session state from `COWORK.md` |
 | `/cowork join` | Onboard a new collaborator mid-session |
-| `/cowork wrap` | Close the session — merge order, checklist, archive `COWORK.md`, trigger `/handoff` |
+| `/cowork wrap` | Close the session — merge order, checklist, archive |
+
+---
+
+## Option B — Any AI assistant (paste a prompt)
+
+Copy the relevant file from `prompts/` and paste it into any AI chat:
+
+| File | When to use |
+|------|-------------|
+| `prompts/start.md` | Starting a new session |
+| `prompts/conflict.md` | Dispute over a file |
+| `prompts/status.md` | Check current state |
+| `prompts/join.md` | New person joining |
+| `prompts/wrap.md` | Ending the session |
+
+---
 
 ## How it works
 
-`/cowork start` produces a `COWORK.md` in the project root:
+Every session produces a `COWORK.md` at the repo root:
 
 ```
 # COWORK Session — 2026-06-07
@@ -34,28 +52,53 @@ Collaborators: Ida, Jason, Mei
 - Mei: CMS API integration
 
 ## Ownership
-| File / Directory | Owner | Reviewer | Notes |
-|-----------------|-------|----------|-------|
-| src/pages/Pricing/ | Ida | Mei | |
-| src/components/Navbar/ | Jason | Ida | |
-| theme.css | ALL | ALL | needs agreement before changing |
+| File / Directory   | Owner | Reviewer | Notes                           |
+|--------------------|-------|----------|---------------------------------|
+| src/pages/Pricing/ | Ida   | Mei      |                                 |
+| src/components/Navbar/ | Jason | Ida  |                                 |
+| theme.css          | ALL   | ALL      | needs agreement before changing |
 
-## Conflict rules
+## Conflict Rules
 - Technical detail → Owner decides, notifies others
-- Design / architecture / shared config → all involved must agree before proceeding
+- Design / architecture / shared config → all involved must agree before anyone proceeds
 ```
 
-All collaborators share this file as the source of truth for the session.
+All collaborators share this file. It's the single source of truth for the session.
+
+---
 
 ## Conflict resolution rules
 
-- **Technical detail** (implementation choice that doesn't affect others) → Owner makes the call, notifies everyone
-- **Design / architecture / shared config** (affects the whole codebase) → no one proceeds until all agree
+| Situation | Who decides |
+|-----------|-------------|
+| Implementation detail inside one person's area | That person (Owner) |
+| Design token / theme / shared config change | Everyone affected — sync required |
+| New dependency | All collaborators — affects everyone's build |
+| API contract change | All collaborators |
+
+---
 
 ## Requirements
 
-- Each collaborator needs their own Claude Code installation
-- Everyone needs push access to the repo (GitHub collaborator)
+- Each collaborator needs their own AI assistant session
+- Everyone needs push access to the repo
+
+---
+
+## Architecture
+
+```
+PROTOCOL.md       ← single source of truth (tool-agnostic)
+SKILL.md          ← thin Claude Code interface (reads PROTOCOL.md, runs it)
+prompts/          ← copy-paste prompts for any AI
+  start.md
+  conflict.md
+  status.md
+  join.md
+  wrap.md
+```
+
+---
 
 ## License
 
