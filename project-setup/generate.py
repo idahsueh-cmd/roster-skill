@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cowork generate — writes AI tool adapter files from PROTOCOL.md"""
+"""roster generate — writes AI tool adapter files from PROTOCOL.md"""
 
 import hashlib
 import os
@@ -13,15 +13,15 @@ TEMPLATES_DIR = os.path.join(SCRIPT_DIR, "templates")
 VERSION_PATH  = os.path.join(SCRIPT_DIR, "VERSION")
 
 TOOLS = {
-    "claude":   ".claude/skills/cowork/SKILL.md",
-    "cursor":   ".cursor/rules/cowork.mdc",
-    "windsurf": ".windsurf/rules/cowork.md",
+    "claude":   ".claude/skills/roster/SKILL.md",
+    "cursor":   ".cursor/rules/roster.mdc",
+    "windsurf": ".windsurf/rules/roster.md",
     "codex":    "AGENTS.md",
 }
 
 ALLOWED = {"{{content}}", "{{name}}", "{{version}}", "{{description}}"}
 SIG_RE  = re.compile(
-    r'<!-- cowork-managed[^>]*gen-hash: ([a-f0-9]{8})[^>]*out-hash: ([a-f0-9]{8})[^>]*-->\n?'
+    r'<!-- roster-managed[^>]*gen-hash: ([a-f0-9]{8})[^>]*out-hash: ([a-f0-9]{8})[^>]*-->\n?'
 )
 
 
@@ -66,8 +66,8 @@ def safe_replace(template, values):
 
 def conflict_error(tool, path):
     print(f"\n❌  Cannot overwrite {path}")
-    print( "    This file does not match cowork's last output.")
-    print( "    Possible reasons: manually edited, or not created by cowork.\n")
+    print( "    This file does not match roster's last output.")
+    print( "    Possible reasons: manually edited, or not created by roster.\n")
     print(f"  A. Skip this tool:     python .cowork/generate.py --skip {tool}")
     print(f"  B. Force overwrite:    python .cowork/generate.py --force")
     print( "     ⚠  Run `git diff` first to review what you'd lose.")
@@ -117,13 +117,13 @@ def main():
 
         rendered  = safe_replace(template, {
             "{{content}}":     body.strip(),
-            "{{name}}":        meta.get("name", "cowork"),
+            "{{name}}":        meta.get("name", "roster"),
             "{{version}}":     version,
             "{{description}}": desc,
         })
         out_hash  = h8(rendered)
         ts        = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        sig_line  = (f"<!-- cowork-managed: do not edit. "
+        sig_line  = (f"<!-- roster-managed: do not edit. "
                      f"gen-hash: {gen_hash} out-hash: {out_hash} "
                      f"generated-at: {ts} -->\n")
         final     = sig_line + rendered
@@ -152,7 +152,7 @@ def main():
 
     if claude_written:
         print()
-        print("  💡 If Claude Code doesn't pick up .claude/skills/cowork/SKILL.md:")
+        print("  💡 If Claude Code doesn't pick up .claude/skills/roster/SKILL.md:")
         print("     1. Restart your Claude Code session")
         print("     2. Make sure you launched claude from this project directory")
         print("     3. WSL users: launch claude from inside WSL, not from Windows")
