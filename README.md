@@ -10,13 +10,32 @@ roster does **not** replace CODEOWNERS, branch protection, issue trackers, or PR
 
 ---
 
+## Quick demo
+
+```text
+User: let's start a roster session
+
+AI: Who is working today, and what is each person building?
+
+User: Codex: admin roster UI / Claude: CSV import API
+```
+
+The AI writes `ROSTER.md`:
+
+| File / Directory | Session Owner | Consult / Notify | Notes |
+|------------------|---------------|------------------|-------|
+| src/pages/admin/ | Codex | Claude | admin UI |
+| src/api/import/ | Claude | Codex | CSV import |
+| package.json | ALL | ALL | needs agreement before changing |
+| src/lib/api.ts | ALL | ALL | shared contract |
+
+Now both agents know what to avoid before a PR exists.
+
+---
+
 ## What this isn't
 
-roster is not a "sync your AI instructions across tools" wrapper — tools designed to push one config file into Claude's rules, Cursor's `.mdc`, and Windsurf's rules already exist and work fine.
-
-roster solves a different problem: two or more people (or AIs, or both) editing the same repo at the same time without overwriting each other. The multi-tool support is incidental — what matters is that everyone touching the repo agrees on who owns what before the commit lands.
-
-If you're solo and just want consistent AI instructions across multiple AI tools, you probably want one of those other tools. If you're coordinating multiple people (with or without AI help), read on.
+roster is not an AI rules sync tool, a task tracker, or a code review system. If you're solo and only want consistent AI instructions across tools, you probably want something else.
 
 ## roster vs CODEOWNERS
 
