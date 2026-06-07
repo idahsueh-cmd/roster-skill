@@ -30,7 +30,9 @@ rm -rf /tmp/cowork-skill
 python .cowork/generate.py
 ```
 
-Then tell the user to restart their AI session (so the new skill files are picked up).
+After installation, tell the user:
+1. Restart your AI session so the new skill files are picked up
+2. Begin a new session and say "let's start a cowork session" — or run `/cowork start` if you're using Claude Code
 
 ---
 
