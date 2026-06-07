@@ -1,6 +1,6 @@
-# cowork
+# roster
 
-> Git tracks code. cowork tracks intent.
+> Git tracks code. roster tracks intent.
 
 A coordination protocol for two or more developers (or AIs, or both) working the same repo at the same time — so you don't overwrite each other.
 
@@ -10,9 +10,9 @@ Works across Claude Code, Cursor, Windsurf, and Codex CLI, so nobody needs to sw
 
 ## What this isn't
 
-cowork is not a "sync your AI instructions across tools" wrapper — tools designed to push one config file into Claude's rules, Cursor's `.mdc`, and Windsurf's rules already exist and work fine.
+roster is not a "sync your AI instructions across tools" wrapper — tools designed to push one config file into Claude's rules, Cursor's `.mdc`, and Windsurf's rules already exist and work fine.
 
-cowork solves a different problem: two or more people (or AIs, or both) editing the same repo at the same time without overwriting each other. The multi-tool support is incidental — what matters is that everyone touching the repo agrees on who owns what before the commit lands.
+roster solves a different problem: two or more people (or AIs, or both) editing the same repo at the same time without overwriting each other. The multi-tool support is incidental — what matters is that everyone touching the repo agrees on who owns what before the commit lands.
 
 If you're solo and just want consistent AI instructions across multiple AI tools, you probably want one of those other tools. If you're coordinating multiple people (with or without AI help), read on.
 
@@ -20,11 +20,11 @@ If you're solo and just want consistent AI instructions across multiple AI tools
 
 ## For AI agents
 
-When the user asks you to install cowork, run these commands in their project root:
+When the user asks you to install roster, run these commands in their project root:
 
 ```bash
 git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
-mkdir -p .cowork
+mkdir -p .roster
 cp -r /tmp/roster-skill/project-setup/. .roster/
 rm -rf /tmp/roster-skill
 python .roster/generate.py
@@ -32,7 +32,7 @@ python .roster/generate.py
 
 After installation, tell the user:
 1. Restart your AI session so the new skill files are picked up
-2. Begin a new session and say "let's start a cowork session" — or run `/cowork start` if you're using Claude Code
+2. Begin a new session and say "let's start a roster session" — or run `/roster start` if you're using Claude Code
 
 ---
 
@@ -42,7 +42,7 @@ After installation, tell the user:
 
 ```bash
 git clone --depth 1 https://github.com/idahsueh-cmd/roster-skill /tmp/roster-skill
-mkdir -p .cowork
+mkdir -p .roster
 cp -r /tmp/roster-skill/project-setup/. .roster/
 rm -rf /tmp/roster-skill
 python .roster/generate.py
@@ -52,7 +52,7 @@ Commit the `.roster/` directory so teammates get the same setup when they clone:
 
 ```bash
 git add .roster/
-git commit -m "add cowork protocol"
+git commit -m "add roster protocol"
 ```
 
 ### Update
@@ -153,4 +153,4 @@ roster-skill/
 
 ## License
 
-MIT
+[MIT](LICENSE)
