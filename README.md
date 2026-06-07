@@ -1,8 +1,10 @@
 # cowork
 
-A coordination protocol for two or more developers working the same repo at the same time — so you don't overwrite each other.
+> Git tracks code. cowork tracks intent.
 
-Supports **Claude Code, Cursor, Windsurf, and Codex CLI** from a single source of truth.
+A coordination protocol for two or more developers (or AIs, or both) working the same repo at the same time — so you don't overwrite each other.
+
+Works across Claude Code, Cursor, Windsurf, and Codex CLI, so nobody needs to switch tools to participate.
 
 ---
 
