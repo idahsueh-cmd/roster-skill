@@ -59,7 +59,7 @@ When done: each person creates a handoff / summary independently, then opens a P
 
 ### START
 
-**Purpose:** Kick off a new cowork session before anyone writes code.
+**Purpose:** Kick off a new roster session before anyone writes code.
 
 **Steps:**
 
